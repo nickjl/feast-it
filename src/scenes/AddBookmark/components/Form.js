@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 const urlRegex = require('url-regex');
 
@@ -14,6 +15,7 @@ class Form extends React.Component {
       url: '',
       invalidTitle: false,
       invalidUrl: false,
+      success: false,
     };
   }
 
@@ -44,46 +46,97 @@ class Form extends React.Component {
     }
     newBookmarks.push({ title, url });
     localStorage.setItem('bookmarks', JSON.stringify(newBookmarks));
-    this.setState({ title: '', url: '' });
+    this.setState({ title: '', url: '', success: true });
   }
 
   handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.name]: event.target.value, success: false });
+
+    // I probably wouldnt change success to false in here but time limited.
   }
 
   render() {
-    const { url, title, invalidTitle, invalidUrl } = this.state;
+    const { url, title, invalidTitle, invalidUrl, success } = this.state;
 
     return (
-      <form onSubmit={this.validateForm}>
-        <label htmlFor="title">
-          Enter site title
-          <input
-            value={title}
-            onChange={this.handleChange}
-            id="title"
-            name="title"
-            type="text"
-            placeholder="Google"
-          />
-        </label>
-        {invalidTitle && <p>Please enter a title (min. 3 character)</p>}
-        <label htmlFor="url">
-          Enter site url
-          <input
-            value={url}
-            onChange={this.handleChange}
-            id="url"
-            name="url"
-            type="text"
-            placeholder="www.google.com"
-          />
-        </label>
-        {invalidUrl && <p>Please enter valid Url</p>}
-        <button type="submit">Add</button>
-      </form>
+      <React.Fragment>
+        <BookmarkFormSC onSubmit={this.validateForm}>
+          <label htmlFor="title">
+            Enter site title
+            <input
+              value={title}
+              onChange={this.handleChange}
+              id="title"
+              name="title"
+              type="text"
+              placeholder="Google"
+            />
+          </label>
+          {invalidTitle && <p>Please enter a title (min. 3 character)</p>}
+          <label htmlFor="url">
+            Enter site url
+            <input
+              value={url}
+              onChange={this.handleChange}
+              id="url"
+              name="url"
+              type="text"
+              placeholder="www.google.com"
+            />
+          </label>
+          {invalidUrl && <p>Please enter valid Url</p>}
+          <button type="submit">Add</button>
+        </BookmarkFormSC>
+        {success && (
+          <BookmarkSuccessSC>
+            <p>Bookmark has been added</p>
+          </BookmarkSuccessSC>
+        )}
+      </React.Fragment>
     );
   }
 }
+
+const BookmarkFormSC = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  label {
+    font-size: 14px;
+    margin-bottom: 20px;
+
+    &:last-of-type {
+      margin-bottom: 40px;
+    }
+  }
+
+  button {
+    width: 250px;
+    font-size: 16px;
+    padding: 10px 25px;
+  }
+
+  input {
+    margin-left: 20px;
+    font-size: 12px;
+
+    :focus {
+      outline: none;
+    }
+  }
+
+  p {
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    line-height: 16px;
+    color: red;
+    margin: 0 0 20px;
+  }
+`;
+
+const BookmarkSuccessSC = styled.div`
+  color: green;
+`;
 
 export default Form;

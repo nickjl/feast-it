@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 class BookmarkList extends React.Component {
   constructor(props) {
@@ -26,17 +27,17 @@ class BookmarkList extends React.Component {
 
   render() {
     const { currentBookmarks } = this.state;
-    if (currentBookmarks) {
+    if (currentBookmarks && currentBookmarks.length) {
       return currentBookmarks.map(x => {
         return (
-          <div key={x.url}>
+          <BookmarkContainerSC key={x.url}>
             <a href={x.url} target="_blank" rel="noopener noreferrer">
               {x.title}
             </a>
             <button type="submit" onClick={() => this.deleteBookmark(x.title, currentBookmarks)}>
               Delete
             </button>
-          </div>
+          </BookmarkContainerSC>
         );
       });
     }
@@ -47,5 +48,20 @@ class BookmarkList extends React.Component {
     );
   }
 }
+
+const BookmarkContainerSC = styled.div`
+  margin-top: 40px;
+
+  a {
+    margin-right: 20px;
+    font-size: 20px;
+    text-transform: capitalize;
+  }
+
+  button {
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+`;
 
 export default BookmarkList;
