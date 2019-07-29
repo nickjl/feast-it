@@ -1,25 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import AddBookmark from './scenes/AddBookmark';
+import EditBookmark from './scenes/EditBookmark';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Current Bookmarks</Link>
+            </li>
+            <li>
+              <Link to="/add">Add New Bookmark</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Route path="/" exact component={EditBookmark} />
+        <Route path="/add" component={AddBookmark} />
+      </div>
+    </Router>
   );
 }
 
