@@ -29,9 +29,10 @@ class BookmarkList extends React.Component {
     const { currentBookmarks } = this.state;
     if (currentBookmarks && currentBookmarks.length) {
       return currentBookmarks.map(x => {
+        const urlToUse = x.url.includes('http') ? x.url : `//${x.url}`;
         return (
           <BookmarkContainerSC key={x.url}>
-            <a href={x.url} target="_blank" rel="noopener noreferrer">
+            <a href={urlToUse} target="_blank" rel="noopener noreferrer">
               {x.title}
             </a>
             <button type="submit" onClick={() => this.deleteBookmark(x.title, currentBookmarks)}>
