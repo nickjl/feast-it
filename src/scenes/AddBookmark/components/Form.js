@@ -58,6 +58,7 @@ class Form extends React.Component {
   render() {
     const { url, title, invalidTitle, invalidUrl, success } = this.state;
 
+    // I would split the below into reusable shared components (input & button)
     return (
       <React.Fragment>
         <BookmarkFormSC onSubmit={this.validateForm}>
